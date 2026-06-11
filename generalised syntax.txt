@@ -1,0 +1,541 @@
+1. Q-LEARNING
+Theory
+Definition
+
+Q-Learning is a model-free Reinforcement Learning algorithm used to learn the best action for each state.
+
+The agent learns using:
+
+States
+Actions
+Rewards
+
+Goal:
+
+Maximize cumulative reward.
+
+Core Components
+Component	Meaning
+State	Current situation
+Action	Move taken
+Reward	Feedback
+Q-Table	Stores Q-values
+Policy	Action strategy
+Most Important Formula
+
+Q(s,a)=Q(s,a)+α[r+γmaxQ(s
+′
+,a
+′
+)−Q(s,a)]
+
+Where:
+
+α = learning rate
+γ = discount factor
+r = reward
+s
+′
+ = next state
+Mental Model to Remember
+Observe State
+   ↓
+Take Action
+   ↓
+Get Reward
+   ↓
+Update Q-Table
+   ↓
+Repeat
+Generalized Code Syntax
+import numpy as np
+import random
+
+# States and actions
+
+states = [0,1,2]
+actions = ["Left", "Right"]
+
+# Initialize Q-table
+
+Q = np.zeros((3,2))
+
+# Parameters
+
+alpha = 0.1
+gamma = 0.9
+
+# Reward function
+
+def get_reward(state):
+
+    if state == 2:
+        return 10
+
+    return 0
+
+# Training
+
+for episode in range(20):
+
+    state = random.randint(0,2)
+
+    while state != 2:
+
+        action = random.randint(0,1)
+
+        if action == 0:
+            next_state = max(0, state-1)
+
+        else:
+            next_state = min(2, state+1)
+
+        reward = get_reward(next_state)
+
+        # Q-learning update
+
+        Q[state, action] = Q[state, action] + alpha * (
+            reward + gamma * np.max(Q[next_state]) - Q[state, action]
+        )
+
+        state = next_state
+
+print(Q)
+Exam Recall Trick
+Q-table → Reward → Update Formula → Repeat
+2. AUTOENCODER
+Theory
+Definition
+
+Autoencoder is a neural network used for:
+
+Data compression
+Feature learning
+Reconstruction
+
+Input and output are same.
+
+Architecture
+Input → Encoder → Bottleneck → Decoder → Output
+
+Example:
+
+5 → 2 → 5
+Key Idea
+Compress → Learn Features → Reconstruct
+Applications
+Dimensionality reduction
+Noise removal
+Feature extraction
+Generalized Code Syntax
+import numpy as np
+
+from sklearn.neural_network import MLPRegressor
+
+# Data
+
+X = np.array([
+    [1,2,3,4,5],
+    [2,3,4,5,6],
+    [3,4,5,6,7]
+])
+
+# Autoencoder
+
+model = MLPRegressor(
+    hidden_layer_sizes=(2,),
+    max_iter=5000,
+    random_state=1
+)
+
+# Train
+
+model.fit(X, X)
+
+# Reconstruction
+
+reconstructed = model.predict(X)
+
+print(reconstructed)
+Exam Recall Trick
+Input = Output
+Middle layer compresses data
+3. K-MEANS + ELBOW METHOD
+Theory
+Definition
+
+K-Means is an unsupervised algorithm used to divide data into K clusters.
+
+Steps
+Choose K
+   ↓
+Initialize centroids
+   ↓
+Assign points
+   ↓
+Update centroids
+   ↓
+Repeat
+Distance Formula
+d=
+(x
+2
+	​
+
+−x
+1
+	​
+
+)
+2
++(y
+2
+	​
+
+−y
+1
+	​
+
+)
+2
+	​
+
+Elbow Method
+
+Used to find optimal K using inertia graph.
+
+Generalized Code Syntax
+import matplotlib.pyplot as plt
+
+from sklearn.datasets import load_iris
+from sklearn.cluster import KMeans
+
+# Dataset
+
+iris = load_iris()
+
+X = iris.data
+
+inertia = []
+
+# K = 1 to 10
+
+for k in range(1,11):
+
+    model = KMeans(
+        n_clusters=k,
+        random_state=1,
+        n_init=10
+    )
+
+    model.fit(X)
+
+    inertia.append(model.inertia_)
+
+# Plot
+
+plt.plot(range(1,11), inertia, marker='o')
+
+plt.xlabel("K")
+
+plt.ylabel("Inertia")
+
+plt.title("Elbow Method")
+
+plt.show()
+Exam Recall Trick
+Assign → Update → Repeat
+4. MLPCLASSIFIER
+Theory
+Definition
+
+MLPClassifier is an Artificial Neural Network used for classification problems.
+
+MLP = Multi Layer Perceptron.
+
+Workflow
+Load Data
+   ↓
+Split Dataset
+   ↓
+Train Model
+   ↓
+Predict
+   ↓
+Accuracy
+Generalized Code Syntax
+from sklearn.datasets import load_iris
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.neural_network import MLPClassifier
+
+from sklearn.metrics import accuracy_score
+
+# Load data
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+# Split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.3,
+    random_state=1
+)
+
+# Model
+
+model = MLPClassifier(
+    hidden_layer_sizes=(10,),
+    max_iter=1000
+)
+
+# Train
+
+model.fit(X_train, y_train)
+
+# Predict
+
+y_pred = model.predict(X_test)
+
+# Accuracy
+
+print(accuracy_score(y_test, y_pred))
+Exam Recall Trick
+Load → Split → Train → Predict → Accuracy
+5. APRIORI
+Theory
+Definition
+
+Apriori is an association rule mining algorithm used in market basket analysis.
+
+Apriori Principle
+
+If an itemset is frequent, then all its subsets are also frequent.
+
+Workflow
+Transactions
+   ↓
+Frequent Itemsets
+   ↓
+Association Rules
+Generalized Code Syntax
+from mlxtend.frequent_patterns import apriori
+from mlxtend.preprocessing import TransactionEncoder
+
+import pandas as pd
+
+# Dataset
+
+dataset = [
+    ['Milk', 'Bread'],
+    ['Bread', 'Butter'],
+    ['Milk', 'Butter']
+]
+
+# Encoding
+
+te = TransactionEncoder()
+
+data = te.fit(dataset).transform(dataset)
+
+df = pd.DataFrame(data, columns=te.columns_)
+
+# Apriori
+
+frequent_itemsets = apriori(
+    df,
+    min_support=0.5,
+    use_colnames=True
+)
+
+print(frequent_itemsets)
+Exam Recall Trick
+Frequent subset ⇒ Frequent superset
+6. LLM + HALLUCINATION
+Theory
+LLM
+
+Large Language Models are AI models trained on huge text datasets to generate human-like text.
+
+Examples:
+
+ChatGPT
+Gemini
+Applications
+Chatbots
+Translation
+Summarization
+Code generation
+Hallucination
+
+LLM generates false information that appears correct.
+
+Causes
+Ambiguous prompts
+Insufficient training
+Statistical prediction
+Reduction Techniques
+Prompt engineering
+RAG
+Human verification
+Exam Recall Trick
+Hallucination = Confident but wrong answer
+7. PCA vs ICA
+PCA Theory
+
+PCA reduces dimensions while preserving maximum variance.
+
+PCA Formula
+
+C=
+n
+1
+	​
+
+(X−
+X
+ˉ
+)
+T
+(X−
+X
+ˉ
+)
+
+ICA Theory
+
+ICA separates hidden independent signals.
+
+Difference
+PCA	ICA
+Dimensionality reduction	Signal separation
+Uncorrelated components	Independent components
+Uses covariance	Uses higher-order statistics
+ICA Generalized Syntax
+from sklearn.decomposition import FastICA
+
+ica = FastICA(n_components=2)
+
+S = ica.fit_transform(X)
+Exam Recall Trick
+PCA → Reduce dimensions
+ICA → Separate signals
+8. GUI + TKINTER
+Theory
+
+GUI = Graphical User Interface.
+
+Tkinter is Python’s GUI library.
+
+Common Widgets
+Label
+Button
+Entry
+Textbox
+GUI Flow
+Create Window
+   ↓
+Add Widgets
+   ↓
+Run Main Loop
+Generalized Code Syntax
+import tkinter as tk
+
+# Window
+
+root = tk.Tk()
+
+root.title("GUI App")
+
+# Label
+
+label = tk.Label(
+    root,
+    text="Hello"
+)
+
+label.pack()
+
+# Button
+
+button = tk.Button(
+    root,
+    text="Click"
+)
+
+button.pack()
+
+# Run GUI
+
+root.mainloop()
+Exam Recall Trick
+Tk() → Widgets → pack() → mainloop()
+9. RNN
+Theory
+
+RNN handles sequential data using hidden memory.
+
+Architecture Formula
+
+h
+t
+	​
+
+=f(Wx
+t
+	​
+
++Uh
+t−1
+	​
+
++b)
+
+Diagram
+x1 → h1
+x2 → h2
+x3 → h3
+Applications
+Speech recognition
+NLP
+Text prediction
+Exam Recall Trick
+RNN remembers previous inputs
+10. ACTIVATION FUNCTIONS
+Sigmoid
+
+σ(x)=
+1+e
+−x
+1
+	​
+
+
+Range:
+
+0 to 1
+
+Used in:
+
+Binary classification
+ReLU
+
+f(x)=max(0,x)
+
+Used in:
+
+Deep learning
+Difference
+Sigmoid	ReLU
+Slow	Fast
+Vanishing gradient	Better training
+Output 0–1	Output 0 or x
+Exam Recall Trick
+Sigmoid → Probability
+ReLU → Fast training

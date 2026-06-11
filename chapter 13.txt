@@ -1,0 +1,219 @@
+1. Write a program to save a trained machine learning model using joblib.dump().
+# SAVE TRAINED MODEL USING JOBLIB
+
+# Required libraries
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+import joblib
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Create model
+model = DecisionTreeClassifier()
+
+# Train model
+model.fit(X, y)
+
+# Save model
+joblib.dump(model, "iris_model.pkl")
+
+print("Model saved successfully")
+2. Write a Python program to load a saved model using joblib.load() and make predictions.
+# LOAD SAVED MODEL AND MAKE PREDICTION
+
+# Required libraries
+import joblib
+import numpy as np
+
+# Load model
+model = joblib.load("iris_model.pkl")
+
+# Sample input
+sample = np.array([[5.1, 3.5, 1.4, 0.2]])
+
+# Prediction
+prediction = model.predict(sample)
+
+print("Predicted Class:", prediction)
+3. Write a Tkinter program to create a GUI window with the title “Iris Flower Classification”.
+# CREATE GUI WINDOW
+
+# Tkinter required for GUI
+import tkinter as tk
+
+# Create window
+root = tk.Tk()
+
+# Window title
+root.title("Iris Flower Classification")
+
+# Window size
+root.geometry("400x300")
+
+# Run GUI
+root.mainloop()
+4. Write a Tkinter program to create labels and entry boxes for Sepal Length and Sepal Width.
+# LABELS AND ENTRY BOXES
+
+import tkinter as tk
+
+root = tk.Tk()
+
+root.title("Iris Flower Classification")
+
+# Sepal Length
+label1 = tk.Label(root, text="Sepal Length")
+label1.pack()
+
+entry1 = tk.Entry(root)
+entry1.pack()
+
+# Sepal Width
+label2 = tk.Label(root, text="Sepal Width")
+label2.pack()
+
+entry2 = tk.Entry(root)
+entry2.pack()
+
+root.mainloop()
+5. Write a Python program to create a button in Tkinter that displays a popup message when clicked.
+# BUTTON WITH POPUP MESSAGE
+
+import tkinter as tk
+from tkinter import messagebox
+
+# Function
+def show_message():
+    messagebox.showinfo("Message", "Button Clicked")
+
+# Create window
+root = tk.Tk()
+
+root.title("Popup Example")
+
+# Button
+button = tk.Button(
+    root,
+    text="Click Me",
+    command=show_message
+)
+
+button.pack()
+
+root.mainloop()
+6. Write a Python code snippet to handle invalid numeric input using try-except ValueError.
+# ERROR HANDLING USING TRY-EXCEPT
+
+try:
+    value = float(input("Enter a number: "))
+    print("Value:", value)
+
+except ValueError:
+    print("Invalid Numeric Input")
+7. Write a program to check whether the file iris_model.pkl exists using the os module.
+# CHECK FILE EXISTENCE
+
+import os
+
+# File check
+if os.path.exists("iris_model.pkl"):
+    print("Model file exists")
+
+else:
+    print("Model file not found")
+8. Write a Python program to create four input fields using Tkinter Entry widgets.
+# FOUR INPUT FIELDS USING ENTRY WIDGETS
+
+import tkinter as tk
+
+root = tk.Tk()
+
+root.title("Iris Flower Classification")
+
+# Input 1
+entry1 = tk.Entry(root)
+entry1.pack()
+
+# Input 2
+entry2 = tk.Entry(root)
+entry2.pack()
+
+# Input 3
+entry3 = tk.Entry(root)
+entry3.pack()
+
+# Input 4
+entry4 = tk.Entry(root)
+entry4.pack()
+
+root.mainloop()
+9. Write code to predict the flower category using model.predict() for user-entered values.
+# FLOWER PREDICTION USING MODEL
+
+import joblib
+import numpy as np
+
+# Load model
+model = joblib.load("iris_model.pkl")
+
+# User values
+sl = 5.1
+sw = 3.5
+pl = 1.4
+pw = 0.2
+
+# Prediction
+prediction = model.predict([[sl, sw, pl, pw]])
+
+print("Predicted Class:", prediction)
+10. Write a Python program to display the predicted flower name using messagebox.showinfo().
+# DISPLAY PREDICTED FLOWER NAME
+
+import tkinter as tk
+from tkinter import messagebox
+
+# Create window
+root = tk.Tk()
+
+root.withdraw()
+
+# Predicted flower
+flower = "Setosa"
+
+# Display result
+messagebox.showinfo(
+    "Prediction",
+    "Predicted Flower: " + flower
+)
+11. Write a program to create a fixed-size Tkinter window using geometry() and resizable().
+# FIXED SIZE WINDOW
+
+import tkinter as tk
+
+# Create window
+root = tk.Tk()
+
+root.title("Fixed Window")
+
+# Window size
+root.geometry("400x300")
+
+# Disable resizing
+root.resizable(False, False)
+
+root.mainloop()
+12. Write a Python program that loads the Iris dataset and prints the target names.
+# LOAD IRIS DATASET
+
+from sklearn.datasets import load_iris
+
+# Load dataset
+iris = load_iris()
+
+# Print target names
+print("Target Names:")
+
+print(iris.target_names)
